@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- STICKY DASHBOARD -->
+<div class="dashboard-container">
+    <div class="dashboard">
+        <div class="card">📋 Total<br><b>{{ total }}</b></div>
+        <div class="card">⏳ Pending<br><b>{{ pending }}</b></div>
+        <div class="card high-card">🔴 High<br><b>{{ high }}</b></div>
+    </div>
+</div>
+
+<!-- PIE CHART (TOP RIGHT) -->
+<div class="chart-float">
+    <canvas id="taskChart" height="160"></canvas>
+</div>
+
+<!-- SEARCH + FILTERS -->
+<div class="top-controls">
+    <form method="GET" class="search-bar">
+        <input name="search" placeholder="Search title or subject" value="{{ search }}">
+        <button>Search</button>
+    </form>
+
+    <form method="GET" class="filter-bar">
+        <select name="status">
+            <option {{ 'selected' if status_filter=='All' }}>All</option>
+            <option {{ 'selected' if status_filter=='Pending' }}>Pending</option>
+            <option {{ 'selected' if status_filter=='Done' }}>Done</option>
+        </select>
+
+        <select name="priority">
+            <option {{ 'selected' if priority_filter=='All' }}>All</option>
+            <option {{ 'selected' if priority_filter=='High' }}>High</option>
+            <option {{ 'selected' if priority_filter=='Medium' }}>Medium</option>
+            <option {{ 'selected' if priority_filter=='Low' }}>Low</option>
+        </select>
+
+        <button>Apply</button>
+    </form>
+</div>
+
+<!-- UI MESSAGE -->
+<div id="ui-message" class="ui-message hidden"></div>
+
+<!-- MAIN APP -->
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>📘 Student Task Manager</h1>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <!-- ADD TASK -->
+    <form method="POST" class="add-form">
+        <input name="title" placeholder="Task title" required>
+        <input name="subject" placeholder="Subject" required>
+        <input type="date" name="due_date" required>
+        <select name="priority">
+            <option>High</option>
+            <option selected>Medium</option>
+            <option>Low</option>
+        </select>
+        <button>Add Task</button>
+    </form>
+
+    <!-- TABLE -->
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Due</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for t in tasks %}
+        <tr class="task-row {{ t[6]|lower }}">
+            <td>{{ t[2] }}</td>
+            <td>{{ t[3] }}</td>
+            <td>{{ t[4] }}</td>
+            <td>{{ t[5] }}</td>
+            <td>{{ t[6] }}</td>
+            <td>
+                {% if t[6] == "Pending" %}
+                    <a href="/done/{{ t[0] }}">Done</a> |
+                {% endif %}
+                <a href="/edit/{{ t[0] }}">Edit</a> |
+                <a href="/delete/{{ t[0] }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div> <!-- END container -->
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- PIE CHART SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById("taskChart");
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: "pie",
+        data: {
+            labels: ["Pending", "Done"],
+            datasets: [{
+                data: [{{ pending }}, {{ done }}]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+    });
+});
+</script>
+
+<!-- SMART MESSAGE SCRIPT -->
+<script>
+function showMessage(text) {
+    const msg = document.getElementById("ui-message");
+    msg.textContent = text;
+    msg.classList.remove("hidden", "fade-out");
+
+    setTimeout(() => {
+        msg.classList.add("fade-out");
+        setTimeout(() => msg.classList.add("hidden"), 400);
+    }, 3000);
+}
+
+window.onload = () => {
+    const tasks = document.querySelectorAll(".task-row");
+    const pending = document.querySelectorAll(".task-row.pending");
+
+    if (tasks.length === 0) {
+        showMessage("📭 No tasks yet. Add your first task.");
+    } 
+    else if (pending.length === 0) {
+        showMessage("🎉 No pending tasks. You’re all clear!");
+    }
+};
+</script>
+
+</body>
+</html>

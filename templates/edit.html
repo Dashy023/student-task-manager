@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container" style="max-width:600px; margin-top:40px;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>✏️ Edit Task</h1>
+        <a href="/" style="text-decoration:none;">⬅ Back</a>
+    </div>
+
+    <form method="POST" class="add-form">
+
+        <!-- TITLE -->
+        <input
+            name="title"
+            placeholder="Task title"
+            value="{{ task[2] }}"
+            required
+        >
+
+        <!-- DUE DATE -->
+        <input
+            type="date"
+            name="due_date"
+            value="{{ task[4] }}"
+            required
+        >
+
+        <!-- PRIORITY -->
+        <select name="priority">
+            <option {{ 'selected' if task[5]=='High' }}>High</option>
+            <option {{ 'selected' if task[5]=='Medium' }}>Medium</option>
+            <option {{ 'selected' if task[5]=='Low' }}>Low</option>
+        </select>
+
+        <button type="submit">Update Task</button>
+    </form>
+
+</div>
+
+</body>
+</html>
