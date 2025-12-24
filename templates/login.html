@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}">
+</head>
+<body class="auth-page">
+<h1 style="color:red;text-align:center;">THIS IS MY LOGIN FILE</h1>
+<div class="auth-container" style="width:100%;max-width:360px;padding:20px;margin:auto;">
+    <h1 style="text-align:center;">Login</h1>
+
+    <form method="POST" style="display:flex;flex-direction:column;gap:14px;">
+        <input type="email" name="email" placeholder="Email" required
+               style="display:block;width:100%;padding:14px;font-size:16px;">
+        <input type="password" name="password" placeholder="Password" required
+               style="display:block;width:100%;padding:14px;font-size:16px;">
+        <button style="display:block;width:100%;padding:14px;font-size:16px;">
+            Login
+        </button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p class="msg {{ category }}" style="text-align:center;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <a href="/forgot-password" style="display:block;text-align:center;margin-top:12px;">
+        Forgot password?
+    </a>
+    <a href="/register" style="display:block;text-align:center;margin-top:8px;">
+        Create account
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,246 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #0d0d0d;
+    color: white;
+}
+
+/* ===== STICKY DASHBOARD ===== */
+.dashboard-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #0d0d0d;
+    padding: 30px 20px 15px;
+}
+
+.dashboard {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    border-bottom: 1px solid #2b2b2b;
+    padding-bottom: 15px;
+}
+
+.card {
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+.high-card { background: #3b1f0f; }
+
+/* ===== SEARCH + FILTERS ===== */
+.top-controls {
+    max-width: 1100px;
+    margin: 25px auto 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+}
+
+.search-bar,
+.filter-bar {
+    display: flex;
+    gap: 10px;
+}
+
+/* ===== MAIN APP CONTAINER ===== */
+.container {
+    max-width: 1100px;
+    margin: 60px auto;
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+/* reserve space for chart (dashboard only) */
+body:not(.auth-page) .container {
+    margin-right: 320px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* ===== FORMS ===== */
+.add-form {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+input, select {
+    background: #2b2b2b;
+    color: white;
+}
+
+button {
+    background: #00adb5;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,173,181,0.4);
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background: #333;
+}
+
+tr:nth-child(even) {
+    background: #262626;
+}
+
+table tr:hover {
+    background: #2e2e2e;
+}
+
+/* ===== STATES ===== */
+.pending { color: orange; font-weight: bold; }
+.done { color: lightgreen; font-weight: bold; }
+
+.high { color: #ff4d4d; font-weight: bold; }
+.medium { color: #ffd24d; font-weight: bold; }
+.low { color: #4dff88; font-weight: bold; }
+
+/* ===== LINKS ===== */
+a {
+    color: #00adb5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ===== FLASH MESSAGES ===== */
+.msg {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.msg.error { color: #ff4d4d; }
+.msg.success { color: #4dff88; }
+
+/* ===== CHART ===== */
+.chart-float {
+    position: fixed;
+    top: 160px;
+    right: 20px;
+    width: 260px;
+    background: #111;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+
+/* ===== MOBILE (APP) ===== */
+@media (max-width: 768px) {
+
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .top-controls {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .search-bar,
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .container {
+        margin: 40px 10px;
+        padding: 20px;
+        margin-right: 0;
+    }
+
+    .add-form {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .chart-float {
+        position: static;
+        width: 90%;
+        margin: 20px auto;
+        box-shadow: none;
+    }
+}
+
+/* =========================
+   MOBILE AUTH – FINAL FIX
+   ========================= */
+@media (max-width: 600px) {
+
+    .auth-page {
+        padding: 12px;
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 18px;
+    }
+
+    .auth-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .auth-container input,
+    .auth-container button {
+        display: block;
+        width: 100%;
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .auth-container h1,
+    .auth-container h2 {
+        font-size: 22px;
+    }
+}
