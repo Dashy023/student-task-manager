@@ -1,7 +1,3 @@
 Flask
 Werkzeug
 gunicorn
-
-Flask
-Werkzeug
-gunicorn
