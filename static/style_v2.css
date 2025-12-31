@@ -244,3 +244,92 @@ a {
         font-size: 22px;
     }
 }
+
+/* =========================
+   MOBILE MAIN SCREEN – APP STYLE
+   ========================= */
+@media (max-width: 600px) {
+
+  /* Sticky dashboard spacing */
+  .dashboard-container {
+    padding: 20px 12px 10px;
+  }
+
+  /* Dashboard cards: 1 per row (app feel) */
+  .dashboard {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .card {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  /* Main container */
+  .container {
+    margin: 20px 8px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  /* Add-task form: already 1fr, just bigger touch */
+  .add-form input,
+  .add-form select,
+  .add-form button {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  /* ===== TABLE → MOBILE FRIENDLY ===== */
+  table {
+    border-spacing: 0 10px;
+  }
+
+  thead {
+    display: none; /* hide table headers */
+  }
+
+  tbody tr {
+    display: block;
+    background: #262626;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    opacity: 0.7;
+  }
+
+  /* Buttons inside table */
+  tbody button,
+  tbody a {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Chart */
+  .chart-float {
+    width: 100%;
+    margin: 16px auto;
+    padding: 14px;
+    border-radius: 14px;
+  }
+}
