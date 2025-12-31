@@ -7,13 +7,16 @@ from datetime import timedelta
 import secrets
 import time
 
+# ================== APP CONFIG ==================
 app = Flask(__name__)
-app.secret_key = "change_this_secret_key"
+app.secret_key = "change_this_secret_key"   # change in production
 app.permanent_session_lifetime = timedelta(days=7)
 
-# ---------- DATABASE ----------
+DB_NAME = "tasks.db"
+
+# ================== DATABASE ==================
 def get_db():
-    return sqlite3.connect("tasks.db")
+    return sqlite3.connect(DB_NAME)
 
 def init_db():
     conn = get_db()
@@ -22,8 +25,8 @@ def init_db():
     c.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE,
-            password TEXT
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
         )
     """)
 
@@ -53,7 +56,7 @@ def init_db():
 
 init_db()
 
-# ---------- REGISTER ----------
+# ================== AUTH ==================
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -77,7 +80,7 @@ def register():
 
     return render_template("register.html")
 
-# ---------- LOGIN ----------
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -100,13 +103,13 @@ def login():
 
     return render_template("login.html")
 
-# ---------- LOGOUT ----------
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/login")
 
-# ---------- FORGOT PASSWORD ----------
+# ================== PASSWORD RESET ==================
 @app.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
@@ -132,13 +135,13 @@ def forgot_password():
         conn.commit()
         conn.close()
 
-        # TEMP: show reset link instead of sending email
-        flash(f"Reset link: http://127.0.0.1:5000/reset/{token}", "info")
+        # Dev-only (no email yet)
+        flash(f"Reset link: /reset/{token}", "info")
         return redirect("/login")
 
     return render_template("forgot_password.html")
 
-# ---------- RESET PASSWORD ----------
+
 @app.route("/reset/<token>", methods=["GET", "POST"])
 def reset_password(token):
     conn = get_db()
@@ -152,8 +155,7 @@ def reset_password(token):
         flash("Invalid or expired reset link", "error")
         return redirect("/login")
 
-    # expire after 15 minutes
-    if int(time.time()) - row[1] > 900:
+    if int(time.time()) - row[1] > 900:  # 15 min
         conn.close()
         flash("Reset link expired", "error")
         return redirect("/login")
@@ -172,7 +174,7 @@ def reset_password(token):
     conn.close()
     return render_template("reset_password.html")
 
-# ---------- MAIN ----------
+# ================== MAIN DASHBOARD ==================
 @app.route("/", methods=["GET", "POST"])
 def index():
     if "user_id" not in session:
@@ -182,6 +184,7 @@ def index():
     conn = get_db()
     c = conn.cursor()
 
+    # Add task
     if request.method == "POST":
         c.execute("""
             INSERT INTO tasks (user_id, title, subject, due_date, priority, status)
@@ -195,6 +198,7 @@ def index():
         ))
         conn.commit()
 
+    # Filters
     status_filter = request.args.get("status", "All")
     priority_filter = request.args.get("priority", "All")
     search = request.args.get("search", "")
@@ -218,6 +222,7 @@ def index():
     tasks = c.fetchall()
     conn.close()
 
+    # Stats
     total = pending = done = high = 0
     for t in tasks:
         total += 1
@@ -240,9 +245,12 @@ def index():
         search=search
     )
 
-# ---------- DONE ----------
+# ================== TASK ACTIONS ==================
 @app.route("/done/<int:task_id>")
 def done(task_id):
+    if "user_id" not in session:
+        return redirect("/login")
+
     conn = get_db()
     c = conn.cursor()
     c.execute(
@@ -253,9 +261,12 @@ def done(task_id):
     conn.close()
     return redirect("/")
 
-# ---------- DELETE ----------
+
 @app.route("/delete/<int:task_id>")
 def delete(task_id):
+    if "user_id" not in session:
+        return redirect("/login")
+
     conn = get_db()
     c = conn.cursor()
     c.execute(
@@ -266,9 +277,12 @@ def delete(task_id):
     conn.close()
     return redirect("/")
 
-# ---------- EDIT ----------
+
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit(task_id):
+    if "user_id" not in session:
+        return redirect("/login")
+
     conn = get_db()
     c = conn.cursor()
 
@@ -297,6 +311,6 @@ def edit(task_id):
 
     return render_template("edit.html", task=task)
 
-# ---------- RUN ----------
+# ================== RUN ==================
 if __name__ == "__main__":
     app.run()
