@@ -360,3 +360,98 @@ a {
     display: inline-block;
   }
 }
+
+/* =========================
+   FINAL MOBILE HARD FIX
+   ========================= */
+@media (max-width: 600px) {
+
+  /* prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* FORCE full-width container */
+  body:not(.auth-page) .container {
+    margin: 10px !important;
+    width: calc(100% - 20px) !important;
+    max-width: 100% !important;
+    padding: 14px !important;
+    box-sizing: border-box;
+  }
+
+  /* FIX header (title + logout) */
+  .container > div:first-child {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .container h1 {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
+
+  /* DASHBOARD CARDS – keep 3 in one row */
+  .dashboard {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px;
+  }
+
+  .card {
+    padding: 10px 6px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  /* PIE CHART – inline & small */
+  .chart-float {
+    position: static !important;
+    width: 160px;
+    margin: 10px auto;
+    padding: 6px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #taskChart {
+    max-height: 120px;
+  }
+
+  /* TABLE → CARD VIEW */
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    display: block;
+    width: 100%;
+    background: #262626;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    opacity: 0.7;
+  }
+
+  tbody a {
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+    padding: 10px;
+    display: inline-block;
+  }
+}
