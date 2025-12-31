@@ -69,7 +69,9 @@
     </form>
 
     <!-- TABLE -->
-    <table>
+<!-- TABLE -->
+<table>
+    <thead>
         <tr>
             <th>Title</th>
             <th>Subject</th>
@@ -78,15 +80,17 @@
             <th>Status</th>
             <th>Action</th>
         </tr>
+    </thead>
 
+    <tbody>
         {% for t in tasks %}
         <tr class="task-row {{ t[6]|lower }}">
-            <td>{{ t[2] }}</td>
-            <td>{{ t[3] }}</td>
-            <td>{{ t[4] }}</td>
-            <td>{{ t[5] }}</td>
-            <td>{{ t[6] }}</td>
-            <td>
+            <td data-label="Title">{{ t[2] }}</td>
+            <td data-label="Subject">{{ t[3] }}</td>
+            <td data-label="Due Date">{{ t[4] }}</td>
+            <td data-label="Priority">{{ t[5] }}</td>
+            <td data-label="Status">{{ t[6] }}</td>
+            <td data-label="Actions">
                 {% if t[6] == "Pending" %}
                     <a href="/done/{{ t[0] }}">Done</a> |
                 {% endif %}
@@ -95,7 +99,8 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </tbody>
+</table>
 
 </div> <!-- END container -->
 
