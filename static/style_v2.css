@@ -246,52 +246,88 @@ a {
 }
 
 /* =========================
-   MOBILE MAIN SCREEN – APP STYLE
+   FINAL MOBILE DASHBOARD (SCROLL-BASED)
    ========================= */
 @media (max-width: 600px) {
 
-  /* Sticky dashboard spacing */
+  /* ===== DASHBOARD SUMMARY ===== */
   .dashboard-container {
-    padding: 20px 12px 10px;
+    padding: 14px 10px 8px;
   }
 
-  /* Dashboard cards: 1 per row (app feel) */
   .dashboard {
+    grid-template-columns: repeat(3, 1fr); /* 3 cards in one row */
+    gap: 8px;
+    padding-bottom: 10px;
+  }
+
+  .card {
+    padding: 10px 6px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  .card b {
+    font-size: 15px;
+  }
+
+  /* ===== INLINE PIE CHART ===== */
+  .chart-float {
+    position: static;           /* remove floating */
+    width: 160px;               /* small chart */
+    margin: 10px auto 14px;
+    padding: 6px;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  #taskChart {
+    max-height: 120px;
+  }
+
+  /* ===== SEARCH & FILTERS ===== */
+  .top-controls {
+    margin: 10px;
+    gap: 10px;
+  }
+
+  .search-bar,
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  /* ===== MAIN CONTAINER ===== */
+  .container {
+    margin: 10px;
+    padding: 14px;
+    border-radius: 14px;
+    margin-right: 0;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  /* ===== ADD TASK FORM ===== */
+  .add-form {
     grid-template-columns: 1fr;
     gap: 10px;
   }
 
-  .card {
-    padding: 16px;
-    font-size: 15px;
-  }
-
-  /* Main container */
-  .container {
-    margin: 20px 8px;
-    padding: 16px;
-    border-radius: 14px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
-  /* Add-task form: already 1fr, just bigger touch */
   .add-form input,
   .add-form select,
   .add-form button {
-    font-size: 16px;
-    padding: 14px;
+    font-size: 15px;
+    padding: 12px;
   }
 
-  /* ===== TABLE → MOBILE FRIENDLY ===== */
+  /* ===== TASK LIST AS CARDS ===== */
   table {
     border-spacing: 0 10px;
   }
 
   thead {
-    display: none; /* hide table headers */
+    display: none;
   }
 
   tbody tr {
@@ -307,7 +343,7 @@ a {
     justify-content: space-between;
     padding: 6px 0;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   tbody td::before {
@@ -316,20 +352,11 @@ a {
     opacity: 0.7;
   }
 
-  /* Buttons inside table */
-  tbody button,
   tbody a {
     width: 100%;
-    margin-top: 8px;
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  /* Chart */
-  .chart-float {
-    width: 100%;
-    margin: 16px auto;
-    padding: 14px;
-    border-radius: 14px;
+    text-align: center;
+    margin-top: 6px;
+    padding: 10px;
+    display: inline-block;
   }
 }
