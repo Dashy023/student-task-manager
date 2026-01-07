@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress | Student Task Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=3">
+</head>
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="dashboard-container">
+    <div style="max-width:1100px; margin:auto; display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="margin:0;">📘 Student Task Manager</h2>
+        <div style="display:flex; gap:20px;">
+            <a href="/">Tasks</a>
+            <a href="/progress">Progress</a>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <h1 style="text-align:center;">📊 Progress Overview</h1>
+
+    <!-- PIE CHART -->
+    <div style="max-width:300px; margin:30px auto;">
+        <canvas id="taskChart"></canvas>
+    </div>
+
+    <!-- STATS -->
+    <div style="max-width:400px; margin:20px auto; font-size:18px; line-height:1.8;">
+        <p>📋 <b>Total</b> – {{ total }}</p>
+        <p>⏳ <b>Pending</b> – {{ pending }}</p>
+        <p>✅ <b>Done</b> – {{ done }}</p>
+        <p>🔴 <b>High Priority</b> – {{ high }}</p>
+    </div>
+
+</div>
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- PIE CHART SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById("taskChart");
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: "pie",
+        data: {
+            labels: ["Pending", "Done"],
+            datasets: [{
+                data: [{{ pending }}, {{ done }}]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>

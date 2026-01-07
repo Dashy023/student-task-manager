@@ -7,18 +7,24 @@
 </head>
 <body>
 
-<!-- STICKY DASHBOARD -->
+<!-- TOP NAVBAR -->
+<div class="dashboard-container">
+    <div style="max-width:1100px; margin:auto; display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="margin:0;">📘 Student Task Manager</h2>
+        <div style="display:flex; gap:20px;">
+            <a href="/">Tasks</a>
+            <a href="/progress">Progress</a>
+        </div>
+    </div>
+</div>
+
+<!-- SUMMARY DASHBOARD -->
 <div class="dashboard-container">
     <div class="dashboard">
         <div class="card">📋 Total<br><b>{{ total }}</b></div>
         <div class="card">⏳ Pending<br><b>{{ pending }}</b></div>
         <div class="card high-card">🔴 High<br><b>{{ high }}</b></div>
     </div>
-</div>
-
-<!-- PIE CHART (TOP RIGHT) -->
-<div class="chart-float">
-    <canvas id="taskChart" height="160"></canvas>
 </div>
 
 <!-- SEARCH + FILTERS -->
@@ -52,7 +58,7 @@
 <!-- MAIN APP -->
 <div class="container">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h1>📘 Student Task Manager</h1>
+        <h1>Tasks</h1>
         <a href="/logout">Logout</a>
     </div>
 
@@ -69,69 +75,39 @@
         <button>Add Task</button>
     </form>
 
-<!-- TABLE -->
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Subject</th>
-            <th>Due</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+    <!-- TASK TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Subject</th>
+                <th>Due</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-    <tbody>
-        {% for t in tasks %}
-        <tr class="task-row {{ t[6]|lower }}">
-            <td data-label="Title">{{ t[2] }}</td>
-            <td data-label="Subject">{{ t[3] }}</td>
-            <td data-label="Due Date">{{ t[4] }}</td>
-            <td data-label="Priority">{{ t[5] }}</td>
-            <td data-label="Status">{{ t[6] }}</td>
-            <td data-label="Actions">
-                {% if t[6] == "Pending" %}
-                    <a href="/done/{{ t[0] }}">Done</a> |
-                {% endif %}
-                <a href="/edit/{{ t[0] }}">Edit</a> |
-                <a href="/delete/{{ t[0] }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-</div> <!-- END container -->
-
-<!-- CHART.JS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- PIE CHART SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const canvas = document.getElementById("taskChart");
-    if (!canvas) return;
-
-    new Chart(canvas, {
-        type: "pie",
-        data: {
-            labels: ["Pending", "Done"],
-            datasets: [{
-                data: [{{ pending }}, {{ done }}]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom"
-                }
-            }
-        }
-    });
-});
-</script>
+        <tbody>
+            {% for t in tasks %}
+            <tr class="task-row {{ t[6]|lower }}">
+                <td data-label="Title">{{ t[2] }}</td>
+                <td data-label="Subject">{{ t[3] }}</td>
+                <td data-label="Due Date">{{ t[4] }}</td>
+                <td data-label="Priority">{{ t[5] }}</td>
+                <td data-label="Status">{{ t[6] }}</td>
+                <td data-label="Actions">
+                    {% if t[6] == "Pending" %}
+                        <a href="/done/{{ t[0] }}">Done</a> |
+                    {% endif %}
+                    <a href="/edit/{{ t[0] }}">Edit</a> |
+                    <a href="/delete/{{ t[0] }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <!-- SMART MESSAGE SCRIPT -->
 <script>

@@ -9,7 +9,7 @@ import time
 
 # ================== APP CONFIG ==================
 app = Flask(__name__)
-app.secret_key = "change_this_secret_key"   # change in production
+app.secret_key = "change_this_secret_key"
 app.permanent_session_lifetime = timedelta(days=7)
 
 DB_NAME = "tasks.db"
@@ -135,7 +135,6 @@ def forgot_password():
         conn.commit()
         conn.close()
 
-        # Dev-only (no email yet)
         flash(f"Reset link: /reset/{token}", "info")
         return redirect("/login")
 
@@ -155,7 +154,7 @@ def reset_password(token):
         flash("Invalid or expired reset link", "error")
         return redirect("/login")
 
-    if int(time.time()) - row[1] > 900:  # 15 min
+    if int(time.time()) - row[1] > 900:
         conn.close()
         flash("Reset link expired", "error")
         return redirect("/login")
@@ -174,7 +173,7 @@ def reset_password(token):
     conn.close()
     return render_template("reset_password.html")
 
-# ================== MAIN DASHBOARD ==================
+# ================== TASKS PAGE (MAIN) ==================
 @app.route("/", methods=["GET", "POST"])
 def index():
     if "user_id" not in session:
@@ -243,6 +242,38 @@ def index():
         status_filter=status_filter,
         priority_filter=priority_filter,
         search=search
+    )
+
+# ================== PROGRESS PAGE ==================
+@app.route("/progress")
+def progress():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+    conn = get_db()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM tasks WHERE user_id=?", (user_id,))
+    tasks = c.fetchall()
+    conn.close()
+
+    total = pending = done = high = 0
+    for t in tasks:
+        total += 1
+        if t[6] == "Pending":
+            pending += 1
+        if t[6] == "Done":
+            done += 1
+        if t[5] == "High":
+            high += 1
+
+    return render_template(
+        "progress.html",
+        total=total,
+        pending=pending,
+        done=done,
+        high=high
     )
 
 # ================== TASK ACTIONS ==================
