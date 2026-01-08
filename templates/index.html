@@ -3,11 +3,11 @@
 <head>
     <title>Student Task Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=3">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=FINAL">
 </head>
 <body>
 
-<!-- TOP NAVBAR -->
+<!-- TOP NAV -->
 <div class="dashboard-container">
     <div style="max-width:1100px; margin:auto; display:flex; justify-content:space-between; align-items:center;">
         <h2 style="margin:0;">📘 Student Task Manager</h2>
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<!-- SUMMARY DASHBOARD -->
+<!-- DASHBOARD CARDS -->
 <div class="dashboard-container">
     <div class="dashboard">
         <div class="card">📋 Total<br><b>{{ total }}</b></div>
@@ -55,14 +55,16 @@
 <!-- UI MESSAGE -->
 <div id="ui-message" class="ui-message hidden"></div>
 
-<!-- MAIN APP -->
+<!-- MAIN CONTAINER -->
 <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
+
+    <!-- TASKS HEADER (LEFT TITLE + RIGHT LOGOUT) -->
+    <div class="tasks-header">
         <h1>Tasks</h1>
-        <a href="/logout">Logout</a>
+        <a href="/logout" class="logout-btn">Logout</a>
     </div>
 
-    <!-- ADD TASK -->
+    <!-- ADD TASK FORM -->
     <form method="POST" class="add-form">
         <input name="title" placeholder="Task title" required>
         <input name="subject" placeholder="Subject" required>
@@ -75,7 +77,7 @@
         <button>Add Task</button>
     </form>
 
-    <!-- TASK TABLE -->
+    <!-- TASKS TABLE -->
     <table>
         <thead>
             <tr>
@@ -87,7 +89,6 @@
                 <th>Action</th>
             </tr>
         </thead>
-
         <tbody>
             {% for t in tasks %}
             <tr class="task-row {{ t[6]|lower }}">
@@ -109,7 +110,7 @@
     </table>
 </div>
 
-<!-- SMART MESSAGE SCRIPT -->
+<!-- SMART MESSAGE -->
 <script>
 function showMessage(text) {
     const msg = document.getElementById("ui-message");

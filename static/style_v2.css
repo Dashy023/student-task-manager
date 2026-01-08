@@ -455,3 +455,42 @@ a {
     display: inline-block;
   }
 }
+
+/* =========================
+   FINAL MOBILE UI FIXES
+   (LOCKED – DO NOT EDIT ABOVE)
+   ========================= */
+@media (max-width: 600px) {
+
+  /* 🔹 Tasks title LEFT + Logout RIGHT (same row) */
+  .tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .tasks-header h1 {
+    margin: 0;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .tasks-header .logout-btn {
+    margin: 0;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  /* 🔹 Filters side-by-side (as per MS Paint sketch) */
+  .filter-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Apply button full width */
+  .filter-bar button {
+    grid-column: 1 / -1;
+  }
+}
