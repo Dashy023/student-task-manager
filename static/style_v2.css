@@ -514,3 +514,38 @@ a {
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
+
+/* =========================
+   ADD TASK PAGE – CENTER FIX
+   ========================= */
+.add-task-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-task-page .container {
+  max-width: 480px;
+}
+
+.add-task-page .add-form {
+  grid-template-columns: 1fr;
+}
+
+/* =========================
+   TASKS PAGE – DESKTOP SPACING
+   ========================= */
+@media (min-width: 768px) {
+
+  .tasks-header {
+    margin-bottom: 20px;
+  }
+
+  table {
+    margin-top: 10px;
+  }
+
+  tbody td[data-label="Actions"] {
+    vertical-align: middle;
+  }
+}
