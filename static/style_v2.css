@@ -494,3 +494,23 @@ a {
     grid-column: 1 / -1;
   }
 }
+
+/* =========================
+   EDIT PAGE – SIZE FIX
+   ========================= */
+.edit-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.edit-page .container,
+.edit-page form {
+  width: 100%;
+  max-width: 450px;
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
