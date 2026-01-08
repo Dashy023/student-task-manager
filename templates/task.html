@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Taskora – Tasks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=TASKS">
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="dashboard-container">
+    <div style="max-width:1100px; margin:auto; display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="margin:0;">📘 Taskora</h2>
+        <div style="display:flex; gap:20px;">
+            <a href="/">Add Task</a>
+            <a href="/tasks">Tasks</a>
+            <a href="/progress">Progress</a>
+        </div>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard-container">
+    <div class="dashboard">
+        <div class="card">📋 Total<br><b>{{ total }}</b></div>
+        <div class="card">⏳ Pending<br><b>{{ pending }}</b></div>
+        <div class="card high-card">🔴 High<br><b>{{ high }}</b></div>
+    </div>
+</div>
+
+<!-- SEARCH + FILTERS -->
+<div class="top-controls">
+    <form method="GET" class="search-bar">
+        <input name="search" placeholder="Search title or subject" value="{{ search }}">
+        <button>Search</button>
+    </form>
+
+    <form method="GET" class="filter-bar">
+        <select name="status">
+            <option {{ 'selected' if status_filter=='All' }}>All</option>
+            <option {{ 'selected' if status_filter=='Pending' }}>Pending</option>
+            <option {{ 'selected' if status_filter=='Done' }}>Done</option>
+        </select>
+
+        <select name="priority">
+            <option {{ 'selected' if priority_filter=='All' }}>All</option>
+            <option {{ 'selected' if priority_filter=='High' }}>High</option>
+            <option {{ 'selected' if priority_filter=='Medium' }}>Medium</option>
+            <option {{ 'selected' if priority_filter=='Low' }}>Low</option>
+        </select>
+
+        <button>Apply</button>
+    </form>
+</div>
+
+<div class="container">
+
+    <div class="tasks-header">
+        <h1>Tasks</h1>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Subject</th>
+                <th>Due</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tasks %}
+            <tr class="task-row {{ t[6]|lower }}">
+                <td data-label="Title">{{ t[2] }}</td>
+                <td data-label="Subject">{{ t[3] }}</td>
+                <td data-label="Due Date">{{ t[4] }}</td>
+                <td data-label="Priority">{{ t[5] }}</td>
+                <td data-label="Status">{{ t[6] }}</td>
+                <td data-label="Actions">
+                    {% if t[6] == "Pending" %}
+                        <a href="/done/{{ t[0] }}">Done</a> |
+                    {% endif %}
+                    <a href="/edit/{{ t[0] }}">Edit</a> |
+                    <a href="/delete/{{ t[0] }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

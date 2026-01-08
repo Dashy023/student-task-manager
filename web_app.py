@@ -179,25 +179,39 @@ def index():
     if "user_id" not in session:
         return redirect("/login")
 
-    user_id = session["user_id"]
-    conn = get_db()
-    c = conn.cursor()
-
-    # Add task
+    # ADD TASK
     if request.method == "POST":
+        conn = get_db()
+        c = conn.cursor()
         c.execute("""
             INSERT INTO tasks (user_id, title, subject, due_date, priority, status)
             VALUES (?, ?, ?, ?, ?, 'Pending')
         """, (
-            user_id,
+            session["user_id"],
             request.form["title"],
             request.form["subject"],
             request.form["due_date"],
             request.form["priority"]
         ))
         conn.commit()
+        conn.close()
 
-    # Filters
+        # AFTER ADD → GO TO TASKS PAGE
+        return redirect("/tasks")
+
+    # JUST SHOW ADD TASK PAGE
+    return render_template("index.html")
+
+@app.route("/tasks")
+def tasks_page():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+    conn = get_db()
+    c = conn.cursor()
+
+    # FILTERS
     status_filter = request.args.get("status", "All")
     priority_filter = request.args.get("priority", "All")
     search = request.args.get("search", "")
@@ -221,7 +235,7 @@ def index():
     tasks = c.fetchall()
     conn.close()
 
-    # Stats
+    # STATS
     total = pending = done = high = 0
     for t in tasks:
         total += 1
@@ -233,7 +247,7 @@ def index():
             high += 1
 
     return render_template(
-        "index.html",
+        "tasks.html",
         tasks=tasks,
         total=total,
         pending=pending,
@@ -243,6 +257,7 @@ def index():
         priority_filter=priority_filter,
         search=search
     )
+
 
 # ================== PROGRESS PAGE ==================
 @app.route("/progress")
@@ -290,7 +305,7 @@ def done(task_id):
     )
     conn.commit()
     conn.close()
-    return redirect("/")
+    return redirect("/tasks")
 
 
 @app.route("/delete/<int:task_id>")
@@ -306,7 +321,7 @@ def delete(task_id):
     )
     conn.commit()
     conn.close()
-    return redirect("/")
+    return redirect("/tasks")
 
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
@@ -331,7 +346,7 @@ def edit(task_id):
         ))
         conn.commit()
         conn.close()
-        return redirect("/")
+        return redirect("/tasks")
 
     c.execute(
         "SELECT * FROM tasks WHERE id=? AND user_id=?",
