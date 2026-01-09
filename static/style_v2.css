@@ -518,11 +518,6 @@ a {
 /* =========================
    ADD TASK PAGE – CENTER FIX
    ========================= */
-.add-task-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .add-task-page .container {
   max-width: 480px;
