@@ -498,11 +498,15 @@ a {
 /* =========================
    EDIT PAGE – SIZE FIX
    ========================= */
-.edit-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+/* =========================
+   EDIT PAGE – MOBILE ONLY
+   ========================= */
+@media (max-width: 768px) {
+  .edit-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .edit-page .container,
@@ -519,11 +523,14 @@ a {
    ADD TASK PAGE – CENTER FIX
    ========================= */
 
+/* =========================
+   ADD TASK PAGE – DESKTOP (DEFAULT)
+   ========================= */
 .add-task-wrapper {
-  display: flex;
-  justify-content: center;
+  display: block;
   margin-top: 40px;
 }
+
 
 .add-task-wrapper .container {
   max-width: 480px;
@@ -551,5 +558,27 @@ a {
 
   tbody td[data-label="Actions"] {
     vertical-align: middle;
+  }
+}
+
+/* =========================
+   ADD TASK PAGE – MOBILE ONLY
+   ========================= */
+@media (max-width: 768px) {
+
+  .add-task-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .add-task-wrapper .container {
+    max-width: 480px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .add-task-wrapper .add-form {
+    grid-template-columns: 1fr;
   }
 }
