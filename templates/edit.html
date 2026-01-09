@@ -3,43 +3,46 @@
 <head>
     <title>Edit Task</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=EDITFIX">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_v2.css') }}?v=FINAL_EDIT">
 </head>
 
-<body class="edit-page">
+<body>
 
-<div class="container">
+<!-- TRUE CENTERED EDIT TASK CARD -->
+<div class="add-task-center">
+    <div class="add-task-card">
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h1>✏️ Edit Task</h1>
-        <a href="/" style="text-decoration:none;">⬅ Back</a>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h1>✏️ Edit Task</h1>
+            <a href="/tasks" style="text-decoration:none;">⬅ Back</a>
+        </div>
+
+        <form method="POST" class="add-form">
+
+            <input
+                name="title"
+                placeholder="Task title"
+                value="{{ task[2] }}"
+                required
+            >
+
+            <input
+                type="date"
+                name="due_date"
+                value="{{ task[4] }}"
+                required
+            >
+
+            <select name="priority">
+                <option {{ 'selected' if task[5]=='High' }}>High</option>
+                <option {{ 'selected' if task[5]=='Medium' }}>Medium</option>
+                <option {{ 'selected' if task[5]=='Low' }}>Low</option>
+            </select>
+
+            <button type="submit">Update Task</button>
+        </form>
+
     </div>
-
-    <form method="POST" class="add-form">
-
-        <input
-            name="title"
-            placeholder="Task title"
-            value="{{ task[2] }}"
-            required
-        >
-
-        <input
-            type="date"
-            name="due_date"
-            value="{{ task[4] }}"
-            required
-        >
-
-        <select name="priority">
-            <option {{ 'selected' if task[5]=='High' }}>High</option>
-            <option {{ 'selected' if task[5]=='Medium' }}>Medium</option>
-            <option {{ 'selected' if task[5]=='Low' }}>Low</option>
-        </select>
-
-        <button type="submit">Update Task</button>
-    </form>
-
 </div>
 
 </body>

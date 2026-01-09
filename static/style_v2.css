@@ -582,3 +582,27 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================
+   TRUE DESKTOP CENTERING
+   ========================= */
+
+.add-task-center {
+  width: 100%;
+}
+
+.add-task-card {
+  max-width: 480px;
+  margin: 40px auto;   /* ← THIS is the real centering */
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 768px) {
+  .add-task-card {
+    margin: 20px;
+  }
+}
