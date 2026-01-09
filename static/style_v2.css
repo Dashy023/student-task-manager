@@ -519,11 +519,20 @@ a {
    ADD TASK PAGE – CENTER FIX
    ========================= */
 
-.add-task-page .container {
-  max-width: 480px;
+.add-task-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
-.add-task-page .add-form {
+.add-task-wrapper .container {
+  max-width: 480px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add-task-wrapper .add-form {
   grid-template-columns: 1fr;
 }
 
