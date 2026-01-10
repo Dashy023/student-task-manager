@@ -207,6 +207,25 @@ a {
         width: 90%;
         margin: 20px auto;
         box-shadow: none;
+
+        /* MOBILE: full-width task cards */
+    }
+
+        /* MOBILE: full-width task cards */
+    .task-card {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+}
+
+/* ===== DESKTOP TASK CARD CENTERING ===== */
+@media (min-width: 769px) {
+    .task-card {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
