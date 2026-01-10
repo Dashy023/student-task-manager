@@ -539,70 +539,6 @@ a {
 }
 
 /* =========================
-   ADD TASK PAGE – CENTER FIX
-   ========================= */
-
-/* =========================
-   ADD TASK PAGE – DESKTOP (DEFAULT)
-   ========================= */
-.add-task-wrapper {
-  display: block;
-  margin-top: 40px;
-}
-
-
-.add-task-wrapper .container {
-  max-width: 480px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.add-task-wrapper .add-form {
-  grid-template-columns: 1fr;
-}
-
-/* =========================
-   TASKS PAGE – DESKTOP SPACING
-   ========================= */
-@media (min-width: 768px) {
-
-  .tasks-header {
-    margin-bottom: 20px;
-  }
-
-  table {
-    margin-top: 10px;
-  }
-
-  tbody td[data-label="Actions"] {
-    vertical-align: middle;
-  }
-}
-
-/* =========================
-   ADD TASK PAGE – MOBILE ONLY
-   ========================= */
-@media (max-width: 768px) {
-
-  .add-task-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-
-  .add-task-wrapper .container {
-    max-width: 480px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .add-task-wrapper .add-form {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================
    TRUE DESKTOP CENTERING
    ========================= */
 
@@ -623,5 +559,50 @@ a {
 @media (max-width: 768px) {
   .add-task-card {
     margin: 20px;
+  }
+}
+
+/* =========================
+   ADD TASK – PERFECT CENTERING
+   ========================= */
+
+/* Page wrapper */
+.add-task-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* Card itself */
+.add-task-wrapper .container {
+  max-width: 520px;   /* controls width on PC */
+  width: 100%;
+  margin: 40px auto;
+  padding: 25px;
+}
+
+/* Inputs always stack nicely */
+.add-task-wrapper .add-form {
+  grid-template-columns: 1fr;
+}
+
+/* =========================
+   MOBILE TASK CARD – FULL WIDTH FIX
+   ========================= */
+@media (max-width: 600px) {
+
+  tbody tr {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  tbody td {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Actions buttons center */
+  tbody td[data-label="Actions"] {
+    justify-content: center;
+    gap: 14px;
   }
 }
