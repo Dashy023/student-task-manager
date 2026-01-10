@@ -690,3 +690,34 @@ a {
 .add-task-wrapper .add-form {
   grid-template-columns: 1fr;
 }
+
+/* =========================
+   ADD TASK PAGE – FINAL OVERRIDE (SAFE)
+   ========================= */
+
+.add-task-center {
+  display: flex;
+  justify-content: center;
+}
+
+.add-task-card {
+  width: 100%;
+  max-width: 520px;   /* PC width control */
+  margin: 40px 16px;
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Stack form fields */
+.add-task-card .add-form {
+  grid-template-columns: 1fr;
+}
+
+/* Mobile spacing */
+@media (max-width: 768px) {
+  .add-task-card {
+    margin: 20px 10px;
+  }
+}
