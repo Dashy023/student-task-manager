@@ -1,5 +1,6 @@
 print("🔥 WEB_APP.PY IS RUNNING 🔥")
 
+import os
 from flask import Flask, render_template, request, redirect, session, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = "change_this_secret_key"
 app.permanent_session_lifetime = timedelta(days=7)
 
-DB_NAME = "tasks.db"
+DB_NAME = os.path.join("data", "tasks.db")
 
 # ================== DATABASE ==================
 def get_db():
