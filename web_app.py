@@ -13,7 +13,13 @@ app = Flask(__name__)
 app.secret_key = "change_this_secret_key"
 app.permanent_session_lifetime = timedelta(days=7)
 
-DB_NAME = os.path.join("data", "tasks.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
+
+# create data folder if it doesn't exist (IMPORTANT)
+os.makedirs(DATA_DIR, exist_ok=True)
+
+DB_NAME = os.path.join(DATA_DIR, "tasks.db")
 
 # ================== DATABASE ==================
 def get_db():
