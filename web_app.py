@@ -10,7 +10,7 @@ import time
 
 # ================== APP CONFIG ==================
 app = Flask(__name__)
-app.secret_key = "change_this_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key")
 app.permanent_session_lifetime = timedelta(days=7)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
