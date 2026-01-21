@@ -61,6 +61,11 @@ def init_db():
     conn.commit()
     conn.close()
 
+@app.before_first_request
+def setup_database():
+    init_db()
+
+
 # ================== AUTH ==================
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -364,5 +369,4 @@ def edit(task_id):
 
 # ================== RUN ==================
 if __name__ == "__main__":
-    init_db()
     app.run()
