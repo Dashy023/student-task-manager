@@ -61,8 +61,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-init_db()
-
 # ================== AUTH ==================
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -366,4 +364,5 @@ def edit(task_id):
 
 # ================== RUN ==================
 if __name__ == "__main__":
+    init_db()
     app.run()
