@@ -5,8 +5,6 @@ from flask import Flask, render_template, request, redirect, session, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
-import secrets
-import time
 
 db_initialized = False
 
@@ -48,15 +46,6 @@ def init_db():
             due_date TEXT,
             priority TEXT,
             status TEXT
-        )
-    """)
-
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS password_resets (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            token TEXT,
-            created_at INTEGER
         )
     """)
 
@@ -123,70 +112,6 @@ def login():
 def logout():
     session.clear()
     return redirect("/login")
-
-# ================== PASSWORD RESET ==================
-@app.route("/forgot-password", methods=["GET", "POST"])
-def forgot_password():
-    if request.method == "POST":
-        email = request.form["email"]
-
-        conn = get_db()
-        c = conn.cursor()
-        c.execute("SELECT id FROM users WHERE email=?", (email,))
-        user = c.fetchone()
-
-        if not user:
-            conn.close()
-            flash("Email not found", "error")
-            return redirect("/forgot-password")
-
-        token = secrets.token_urlsafe(32)
-        created_at = int(time.time())
-
-        c.execute(
-            "INSERT INTO password_resets (user_id, token, created_at) VALUES (?, ?, ?)",
-            (user[0], token, created_at)
-        )
-        conn.commit()
-        conn.close()
-
-        flash(f"Reset link: /reset/{token}", "info")
-        return redirect("/login")
-
-    return render_template("forgot_password.html")
-
-
-@app.route("/reset/<token>", methods=["GET", "POST"])
-def reset_password(token):
-    conn = get_db()
-    c = conn.cursor()
-
-    c.execute("SELECT user_id, created_at FROM password_resets WHERE token=?", (token,))
-    row = c.fetchone()
-
-    if not row:
-        conn.close()
-        flash("Invalid or expired reset link", "error")
-        return redirect("/login")
-
-    if int(time.time()) - row[1] > 900:
-        conn.close()
-        flash("Reset link expired", "error")
-        return redirect("/login")
-
-    if request.method == "POST":
-        new_password = generate_password_hash(request.form["password"])
-
-        c.execute("UPDATE users SET password=? WHERE id=?", (new_password, row[0]))
-        c.execute("DELETE FROM password_resets WHERE token=?", (token,))
-        conn.commit()
-        conn.close()
-
-        flash("Password reset successful. Login now.", "success")
-        return redirect("/login")
-
-    conn.close()
-    return render_template("reset_password.html")
 
 # ================== TASKS PAGE (MAIN) ==================
 @app.route("/", methods=["GET", "POST"])
