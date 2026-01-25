@@ -8,6 +8,8 @@ from datetime import timedelta
 import secrets
 import time
 
+db_initialized = False
+
 # ================== APP CONFIG ==================
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key")
@@ -61,9 +63,12 @@ def init_db():
     conn.commit()
     conn.close()
 
-@app.before_first_request
-def setup_database():
-    init_db()
+@app.before_request
+def ensure_db():
+    global db_initialized
+    if not db_initialized:
+        init_db()
+        db_initialized = True
 
 
 # ================== AUTH ==================
