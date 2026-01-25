@@ -721,3 +721,10 @@ a {
     margin: 20px 10px;
   }
 }
+
+/* Hide only filter dropdowns on mobile */
+@media (max-width: 768px) {
+    .filter-bar {
+        display: none;
+    }
+}
